@@ -6,7 +6,7 @@ import ButtonUpdate from "./ButtonUpdate";
 import ButtomCreate from "./ButtonCreate";
 import { faker } from '@faker-js/faker';
 
-function ButtonRead() {
+function ButtonRead({ invertColors }) { 
   const [cars, setCars] = useState([]);
 
   const viewCars = async () => {
@@ -57,9 +57,9 @@ function ButtonRead() {
 
   return (
     <View>
-      <ButtomCreate onCreateSuccess={viewCars} />
-      <TouchableOpacity style={styles.botao} onPress={viewCars}>
-        <Text style={styles.textoBotao}>Veja os carros!</Text>
+      <ButtomCreate onCreateSuccess={viewCars} invertColors={invertColors} />
+      <TouchableOpacity style={[styles.botao, { backgroundColor:'#3498db'}]} onPress={viewCars}>
+        <Text style={[styles.textoBotao, { color: '#fff'}]}>Veja os carros!</Text>
       </TouchableOpacity>
 
       <FlatList
@@ -67,12 +67,12 @@ function ButtonRead() {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={styles.itemContainer}>
-            <Text>ID: {item.id}</Text>
-            <Text>Cor: {item.cor}</Text>
-            <Text>Marca: {item.marca}</Text>
-            <Text>WHP: {item.whp}</Text>
-            <ButtonDelete carId={item.id} onDeleteSuccess={viewCars} />
-            <ButtonUpdate carId={item.id} onUpdateSuccess={viewCars}/>
+            <Text style={[styles.text, { color: invertColors ? '#fff' : '#000', }]}>ID: {item.id}</Text>
+            <Text style={[styles.text, { color: invertColors ? '#fff' : '#000', }]}>Cor: {item.cor}</Text>
+            <Text style={[styles.text, { color: invertColors ? '#fff' : '#000', }]}>Marca: {item.marca}</Text>
+            <Text style={[styles.text, { color: invertColors ? '#fff' : '#000', }]}>WHP: {item.whp}</Text>
+            <ButtonDelete carId={item.id} onDeleteSuccess={viewCars} invertColors={invertColors} />
+            <ButtonUpdate carId={item.id} onUpdateSuccess={viewCars} invertColors={invertColors} />
           </View>
         )}
       />
@@ -97,6 +97,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderBottomWidth: 2,
     borderBottomColor: "#ccc",
+  },
+  text:{
+    fontWeight: '600',
   }
 });
 
